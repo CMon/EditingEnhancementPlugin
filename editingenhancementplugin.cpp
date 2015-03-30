@@ -14,6 +14,7 @@
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QMenu>
+#include <QTextBlock>
 
 #include <QtPlugin>
 
@@ -74,48 +75,42 @@ ExtensionSystem::IPlugin::ShutdownFlag EditingEnhancementPlugin::aboutToShutdown
     return SynchronousShutdown;
 }
 
-static QString getTextOfCurrentLine (BaseTextEditor & editor, int globalPositionInLine = -1)
-{
-    int start = editor.position(TextPositionOperation::StartOfLinePosition, globalPositionInLine);
-    int end = editor.position(TextPositionOperation::EndOfLinePosition, globalPositionInLine);
-
-    return editor.textAt(start, end - start);
-}
-
 void EditingEnhancementPlugin::onSortParagraphAction()
 {
     BaseTextEditor *editor = BaseTextEditor::currentTextEditor();
     if (!editor) return;
 
-    const int startingLine = editor->currentLine();
-    if (getTextOfCurrentLine(*editor).isEmpty()) return;
+    QTextCursor cursor = editor->textCursor();
+    if (cursor.hasSelection()) return;
 
-    // find start of block (trimmed & empty)
-    int lineNr = startingLine;
-    QString line;
-    QStringList lines;
-    while ((!(line = getTextOfCurrentLine(*editor)).trimmed().isEmpty()) && lineNr > 0) {
-        lines.prepend(line);
-        editor->gotoLine(--lineNr);
-    }
-    const int topLine = lineNr+1;
-    const int topPosition = editor->position(TextPositionOperation::StartOfLinePosition);
+    QTextCursor sortingSelection = cursor;
 
-    // find end of block (trimmed & empty)
-    lineNr = startingLine + 1;
-    editor->gotoLine(lineNr);
-    while ((!(line = getTextOfCurrentLine(*editor)).trimmed().isEmpty())) {
-        lines.append(line);
-        editor->gotoLine(++lineNr);
+    // find start of block (trimmed && empty)
+    QTextBlock block = cursor.block();
+    while (block.previous().isValid() && !block.previous().text().trimmed().isEmpty()) {
+        block = block.previous();
     }
-    editor->gotoLine(lineNr - 1);
-    const int bottomPosition = editor->position(TextPositionOperation::EndOfLinePosition);
+    sortingSelection.setPosition(block.position());
 
-    if (lines.isEmpty()) {
-        editor->gotoLine(startingLine);
-    } else {
-        qSort(lines);
-        editor->gotoLine(topLine);
-        editor->replace(bottomPosition - topPosition, lines.join(QLatin1Char('\n')));
+    // find end of block (trimmed && empty)
+    block = cursor.block();
+    while (block.next().isValid() && !block.next().text().trimmed().isEmpty()) {
+        block = block.next();
     }
+
+    // select all lines that should be sorted
+    sortingSelection.setPosition(block.position() + block.length() - 1, QTextCursor::KeepAnchor);
+
+    // order lines
+    QStringList lines = sortingSelection.selectedText().split(QChar::ParagraphSeparator, QString::SkipEmptyParts);
+    lines.sort(Qt::CaseInsensitive);
+    const QString sortedLines = lines.join(QChar::ParagraphSeparator);
+
+    // replace text
+    sortingSelection.beginEditBlock();
+    sortingSelection.insertText(sortedLines);
+    sortingSelection.endEditBlock();
+
+    sortingSelection.setPosition(sortingSelection.position() + 1);
+    editor->setTextCursor(sortingSelection);
 }
