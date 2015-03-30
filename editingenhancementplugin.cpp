@@ -49,7 +49,7 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     QAction *action = new QAction(tr("Sort paragraph"), this);
     Core::Command *cmd = Core::ActionManager::registerAction(action, Constants::ACTION_ID,
                                                              Core::Context(Core::Constants::C_GLOBAL));
-    cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+Alt+Meta+A")));
+    cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+S")));
     connect(action, SIGNAL(triggered()), this, SLOT(onSortParagraphAction()));
 
     Core::ActionContainer *menu = Core::ActionManager::createMenu(Constants::MENU_ID);
