@@ -1,0 +1,12 @@
+{
+    \"Name\" : \"EditingEnhancement\",
+    \"Version\" : \"0.0.1\",
+    \"CompatVersion\" : \"0.0.1\",
+    \"Vendor\" : \"Me\",
+    \"Copyright\" : \"(C) Me\",
+    \"License\" : \"Beer Licence\",
+    \"Description\" : \"A collection of enhancements for programming.\",
+    \"Url\" : \"\",
+    $$dependencyList
+}
+
