@@ -4,7 +4,7 @@
 namespace EditingEnhancement {
 namespace Constants {
 
-const char ACTION_ID[] = "EditingEnhancement.Action";
+const char SortParagraphActionID[] = "EditingEnhancement.SortParagraph";
 const char MENU_ID[] = "EditingEnhancement.Menu";
 
 } // namespace EditingEnhancement

@@ -47,7 +47,7 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     Q_UNUSED(errorString)
 
     QAction *action = new QAction(tr("Sort paragraph"), this);
-    Core::Command *cmd = Core::ActionManager::registerAction(action, Constants::ACTION_ID,
+    Core::Command *cmd = Core::ActionManager::registerAction(action, Constants::SortParagraphActionID,
                                                              Core::Context(Core::Constants::C_GLOBAL));
     cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+S")));
     connect(action, SIGNAL(triggered()), this, SLOT(onSortParagraphAction()));
