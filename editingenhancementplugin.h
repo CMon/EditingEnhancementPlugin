@@ -23,6 +23,10 @@ public:
 
 private slots:
     void onSortParagraphAction();
+    void onSortIndentedParagraphAction();
+
+private:
+    void sortParagraphPrivate(bool indentedBlock);
 };
 
 } // namespace Internal

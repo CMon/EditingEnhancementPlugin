@@ -46,15 +46,22 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     Q_UNUSED(arguments)
     Q_UNUSED(errorString)
 
+    // sort whole paragraph
     QAction *action = new QAction(tr("Sort paragraph"), this);
-    Core::Command *cmd = Core::ActionManager::registerAction(action, Constants::SortParagraphActionID,
-                                                             Core::Context(Core::Constants::C_GLOBAL));
-    cmd->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+S")));
+    Core::Command *cmd1 = Core::ActionManager::registerAction(action, Constants::SortParagraphActionID, Core::Context(Core::Constants::C_GLOBAL));
+    cmd1->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+S")));
     connect(action, SIGNAL(triggered()), this, SLOT(onSortParagraphAction()));
+
+    // sort lines that are identically indented with the current line, usefull when ordering SOURCES or HEADERS in a .pro file
+    action = new QAction(tr("Sort indented paragraph"), this);
+    Core::Command *cmd2 = Core::ActionManager::registerAction(action, Constants::SortIndentedParagraphActionID, Core::Context(Core::Constants::C_GLOBAL));
+    cmd2->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+E,Ctrl+Shift+S")));
+    connect(action, SIGNAL(triggered()), this, SLOT(onSortIndentedParagraphAction()));
 
     Core::ActionContainer *menu = Core::ActionManager::createMenu(Constants::MENU_ID);
     menu->menu()->setTitle(tr("Editing enhancement"));
-    menu->addAction(cmd);
+    menu->addAction(cmd1);
+    menu->addAction(cmd2);
     Core::ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
 
     return true;
@@ -75,7 +82,7 @@ ExtensionSystem::IPlugin::ShutdownFlag EditingEnhancementPlugin::aboutToShutdown
     return SynchronousShutdown;
 }
 
-void EditingEnhancementPlugin::onSortParagraphAction()
+void EditingEnhancementPlugin::sortParagraphPrivate(bool indentedBlock)
 {
     BaseTextEditor *editor = BaseTextEditor::currentTextEditor();
     if (!editor) return;
@@ -85,10 +92,25 @@ void EditingEnhancementPlugin::onSortParagraphAction()
 
     QTextCursor sortingSelection = cursor;
 
-    // find start of block (trimmed && empty)
     QTextBlock block = cursor.block();
+
+    // used if indentedBlock is enabled
+    QRegExp leadingWhitespaceRegExp(QLatin1String("(^\\s*).*"));
+    leadingWhitespaceRegExp.indexIn(block.text());
+    const QString indention = leadingWhitespaceRegExp.cap(1);
+
+    // find start of block (trimmed && empty || not same indention)
     while (block.previous().isValid() && !block.previous().text().trimmed().isEmpty()) {
         block = block.previous();
+
+        if (indentedBlock) {
+            leadingWhitespaceRegExp.indexIn(block.text());
+            const QString currentIndention = leadingWhitespaceRegExp.cap(1);
+            if (currentIndention != indention) {
+                block = block.next();
+                break;
+            }
+        }
     }
     sortingSelection.setPosition(block.position());
 
@@ -96,6 +118,15 @@ void EditingEnhancementPlugin::onSortParagraphAction()
     block = cursor.block();
     while (block.next().isValid() && !block.next().text().trimmed().isEmpty()) {
         block = block.next();
+
+        if (indentedBlock) {
+            leadingWhitespaceRegExp.indexIn(block.text());
+            const QString currentIndention = leadingWhitespaceRegExp.cap(1);
+            if (currentIndention != indention) {
+                block = block.previous();
+                break;
+            }
+        }
     }
 
     // select all lines that should be sorted
@@ -113,4 +144,14 @@ void EditingEnhancementPlugin::onSortParagraphAction()
 
     sortingSelection.setPosition(sortingSelection.position() + 1);
     editor->setTextCursor(sortingSelection);
+}
+
+void EditingEnhancementPlugin::onSortParagraphAction()
+{
+    sortParagraphPrivate(false);
+}
+
+void EditingEnhancementPlugin::onSortIndentedParagraphAction()
+{
+    sortParagraphPrivate(true);
 }
