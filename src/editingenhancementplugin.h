@@ -1,9 +1,10 @@
 #ifndef EDITINGENHANCEMENT_H
 #define EDITINGENHANCEMENT_H
 
-#include "editingenhancement_global.h"
-
 #include <extensionsystem/iplugin.h>
+
+#include "editingenhancement_global.h"
+#include "paragraphsorting.h"
 
 namespace EditingEnhancement {
 namespace Internal {
@@ -21,12 +22,8 @@ public:
     void extensionsInitialized();
     ShutdownFlag aboutToShutdown();
 
-private slots:
-    void onSortParagraphAction();
-    void onSortIndentedParagraphAction();
-
 private:
-    void sortParagraphPrivate(bool indentedBlock);
+    ParagraphSorting m_paragraphSorting;
 };
 
 } // namespace Internal
