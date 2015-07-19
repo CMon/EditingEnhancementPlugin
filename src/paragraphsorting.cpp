@@ -7,7 +7,9 @@
 
 using namespace TextEditor;
 
-ParagraphSorting::ParagraphSorting(QObject *parent) : QObject(parent)
+ParagraphSorting::ParagraphSorting(QObject *parent)
+    :
+      QObject(parent)
 {
 }
 
