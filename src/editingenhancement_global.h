@@ -10,4 +10,3 @@
 #endif
 
 #endif // EDITINGENHANCEMENT_GLOBAL_H
-

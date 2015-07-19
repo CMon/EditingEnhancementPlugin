@@ -33,4 +33,3 @@ private:
 } // namespace EditingEnhancement
 
 #endif // EDITINGENHANCEMENT_H
-

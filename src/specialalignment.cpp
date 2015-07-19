@@ -12,8 +12,8 @@ using namespace TextEditor;
 
 static bool getAlignToLastOccournce(const QString & endPartFirstLine, const QString & startPartLastLine, const QString & alignPattern)
 {
-    bool firstLineHasLaterOccourences     = endPartFirstLine.lastIndexOf(alignPattern) > 0;
-    bool firstLineHasPreviousOccourences  = startPartLastLine.indexOf(alignPattern) < (startPartLastLine.length() - alignPattern.length());
+    bool firstLineHasLaterOccourences    = endPartFirstLine.lastIndexOf(alignPattern) > 0;
+    bool firstLineHasPreviousOccourences = startPartLastLine.indexOf(alignPattern) < (startPartLastLine.length() - alignPattern.length());
 
     if (firstLineHasLaterOccourences && !firstLineHasPreviousOccourences) return false;
     return true;

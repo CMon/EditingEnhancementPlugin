@@ -14,4 +14,3 @@ const char AdvancedAlignmentActionID[]     = "EditingEnhancement.AdvancedAlignme
 } // namespace Constants
 
 #endif // EDITINGENHANCEMENTCONSTANTS_H
-
