@@ -4,13 +4,15 @@ DEFINES += EDITINGENHANCEMENT_LIBRARY
 
 SOURCES += \
     editingenhancementplugin.cpp \
-    paragraphsorting.cpp
+    paragraphsorting.cpp \
+    specialalignment.cpp \
 
 HEADERS += \
     editingenhancement_global.h \
     editingenhancementconstants.h \
     editingenhancementplugin.h \
-    paragraphsorting.h
+    paragraphsorting.h \
+    specialalignment.h \
 
 # Qt Creator linking
 
