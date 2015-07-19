@@ -4,7 +4,9 @@
 #include <extensionsystem/iplugin.h>
 
 #include "editingenhancement_global.h"
+
 #include "paragraphsorting.h"
+#include "specialalignment.h"
 
 namespace EditingEnhancement {
 namespace Internal {
@@ -24,6 +26,7 @@ public:
 
 private:
     ParagraphSorting m_paragraphSorting;
+    SpecialAlignment m_specialAlignment;
 };
 
 } // namespace Internal

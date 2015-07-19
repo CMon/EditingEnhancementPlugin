@@ -19,6 +19,7 @@ using namespace EditingEnhancement::Internal;
 EditingEnhancementPlugin::EditingEnhancementPlugin()
     :
       m_paragraphSorting(this)
+    , m_specialAlignment(this)
 {
     // Create your members
 }
@@ -53,10 +54,28 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     cmd2->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+E,Ctrl+Shift+S")));
     connect(action, SIGNAL(triggered()), &m_paragraphSorting, SLOT(onSortIndentedParagraphAction()));
 
+    /* special alignment to verticaly align elements for example:
+     * Input:
+     * asdf = 3
+     * a = 2
+     * bcderf = 4
+     * select from first line '=' until last line '= ', than it the matcher searches for all similar chars from the start of the selection and the end of the selection
+     * (in this case '= ' ) and than aligns all lines inbetween the selection.
+     * output:
+     * asdf   = 3
+     * a      = 2
+     * bcderf = 4
+     */
+    action = new QAction(tr("Advanced Alignment"), this);
+    Core::Command *cmd3 = Core::ActionManager::registerAction(action, Constants::AdvancedAlignmentActionID, Core::Context(Core::Constants::C_GLOBAL));
+    cmd3->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+R")));
+    connect(action, SIGNAL(triggered()), &m_specialAlignment, SLOT(align()));
+
     Core::ActionContainer *menu = Core::ActionManager::createMenu(Constants::MENU_ID);
     menu->menu()->setTitle(tr("Editing enhancement"));
     menu->addAction(cmd1);
     menu->addAction(cmd2);
+    menu->addAction(cmd3);
     Core::ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
 
     return true;
