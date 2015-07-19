@@ -45,13 +45,13 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     // sort whole paragraph
     QAction *action = new QAction(tr("Sort paragraph"), this);
     Core::Command *cmd1 = Core::ActionManager::registerAction(action, Constants::SortParagraphActionID, Core::Context(Core::Constants::C_GLOBAL));
-    cmd1->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+S")));
+    cmd1->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+E,Ctrl+Shift+S")));
     connect(action, SIGNAL(triggered()), &m_paragraphSorting, SLOT(onSortParagraphAction()));
 
     // sort lines that are identically indented with the current line, usefull when ordering SOURCES or HEADERS in a .pro file
     action = new QAction(tr("Sort indented paragraph"), this);
     Core::Command *cmd2 = Core::ActionManager::registerAction(action, Constants::SortIndentedParagraphActionID, Core::Context(Core::Constants::C_GLOBAL));
-    cmd2->setDefaultKeySequence(QKeySequence(tr("Ctrl+Shift+E,Ctrl+Shift+S")));
+    cmd2->setDefaultKeySequence(QKeySequence(tr("Ctrl+E,Ctrl+S")));
     connect(action, SIGNAL(triggered()), &m_paragraphSorting, SLOT(onSortIndentedParagraphAction()));
 
     /* special alignment to verticaly align elements for example:
