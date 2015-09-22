@@ -18,4 +18,6 @@ without a selection
 * Advanced Alignment: CTRL+E,CTRL+R
 ** This vertically aligns by a common found object. You select from the First char you want the lines align to to the last char it should align to and then press the combo.
 
+## new QuickFix
+* When hitting ALT+Enter and if you are within an if statement you are now able to add or remove a '!' infront of the current statement
 

@@ -6,6 +6,7 @@ SOURCES += \
     editingenhancementplugin.cpp \
     paragraphsorting.cpp \
     specialalignment.cpp \
+    cppquickfixadditions.cpp \
 
 HEADERS += \
     editingenhancement_global.h \
@@ -13,6 +14,7 @@ HEADERS += \
     editingenhancementplugin.h \
     paragraphsorting.h \
     specialalignment.h \
+    cppquickfixadditions.h \
 
 # Qt Creator linking
 
@@ -38,11 +40,13 @@ USE_USER_DESTDIR = yes
 
 QTC_PLUGIN_NAME = EditingEnhancement
 QTC_LIB_DEPENDS += \
+    cplusplus \
     # nothing here at this time
 
 QTC_PLUGIN_DEPENDS += \
     coreplugin \
-    texteditor
+    texteditor \
+    cppeditor \
 
 QTC_PLUGIN_RECOMMENDS += \
     # optional plugin dependencies. nothing here at this time

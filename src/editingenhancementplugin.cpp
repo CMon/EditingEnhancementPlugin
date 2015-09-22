@@ -1,5 +1,7 @@
 #include "editingenhancementplugin.h"
+
 #include "editingenhancementconstants.h"
+#include "cppquickfixadditions.h"
 
 #include <coreplugin/icore.h>
 #include <coreplugin/actionmanager/actionmanager.h>
@@ -77,6 +79,9 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     menu->addAction(cmd2);
     menu->addAction(cmd3);
     Core::ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
+
+    // add custom quickfixes for cppeditor
+    addAutoReleasedObject(new CppEditor::AddNotInfrontOfStatement);
 
     return true;
 }
