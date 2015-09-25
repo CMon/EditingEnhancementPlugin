@@ -15,5 +15,7 @@ Look into the editingenhancement.pro file to get instructions about where to put
 without a selection
 * Sort indented paragraph: CTRL+E,CTRL+S
 ** This sorts all lines on the current paragraph, similar to the previous call but this time the paragraph ends when the indentation stops. This is helpfull if you want to order stuff like the "HEADER += \" entries in the .pro file.
+* Advanced Alignment: CTRL+E,CTRL+R
+** This vertically aligns by a common found object. You select from the First char you want the lines align to to the last char it should align to and then press the combo.
 
 
