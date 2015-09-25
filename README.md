@@ -21,9 +21,9 @@ without a selection
   * This vertically aligns by a common found object. You select from the First char you want the lines align to to the last char it should align to and then press the combo.
   * The following two pictures show a simple example on how to verticaly align at the matching string '= '
   * First you select from the starting '= ' to the finishing one:
-![Selection for alignment](https://github.com/CMon/EditingEnhancementPlugin/blob/master/doc/markingBeforeSpecialAlignment.png)
+    ![Selection for alignment](https://github.com/CMon/EditingEnhancementPlugin/blob/master/doc/markingBeforeSpecialAlignment.png)
   * Then you hit the combo and the result will be this:
-![After the alignment happened](https://github.com/CMon/EditingEnhancementPlugin/blob/master/doc/afterSpecialAlignment.png)
+    ![After the alignment happened](https://github.com/CMon/EditingEnhancementPlugin/blob/master/doc/afterSpecialAlignment.png)
   * This works for all kinds of strings as long as all lines have this string in common
 
 ## new QuickFix
