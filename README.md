@@ -7,7 +7,12 @@ Setup the environment variables:
 * QTC_BUILD has to point to the QtCreator build
 
 ## Installation
-Look into the editingenhancement.pro file to get instructions about where to put the builded plugin.
+Copy the <ideversion>/libEditingEnhancement.so from the prebuild directory into the plugin directory. Depending on you system its on the following locations:
+* Windows: "%LOCALAPPDATA%\QtProject\qtcreator\plugins\<ideversion>"
+* Linux: "$XDG_DATA_HOME/data/QtProject/qtcreator/plugins/<ideversion>" or "~/.local/share/data/QtProject/qtcreator/plugins/<ideversion>"
+* Mac: "~/Library/Application Support/QtProject/Qt Creator/plugins/<ideversion>"
+
+Currently there are only prebuilds for linux
 
 ## New Commands
 * Sort paragraph: CTRL+SHIFT+E,CTRL+SHIFT+S
