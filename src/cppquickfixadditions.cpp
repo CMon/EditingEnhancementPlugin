@@ -101,5 +101,6 @@ void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, Text
     const AddRemoveNotInfrontOfStatementOp::Type typeOfChange = isNegation ? AddRemoveNotInfrontOfStatementOp::RemoveNot
                                                                            : AddRemoveNotInfrontOfStatementOp::AddNot;
 
-    result.append(new AddRemoveNotInfrontOfStatementOp(interface, 1, typeOfChange, startPos));
+    QSharedPointer<AddRemoveNotInfrontOfStatementOp> op(new AddRemoveNotInfrontOfStatementOp(interface, 1, typeOfChange, startPos));
+    result.append(op);
 }
