@@ -61,7 +61,7 @@ void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, Text
 {
     BaseTextEditor *editor = BaseTextEditor::currentTextEditor();
     const QString fileName = editor->document()->filePath().toString();
-    CppTools::SemanticInfo semanticInfo = CppTools::CppModelManager::instance()->editorDocumentProcessor(editor->textDocument())->recalculateSemanticInfo();
+    CppTools::SemanticInfo semanticInfo = CppTools::CppModelManager::instance()->createEditorDocumentProcessor(editor->textDocument())->recalculateSemanticInfo();
     CPlusPlus::ASTPath astPath(semanticInfo.doc);
 
     const QList<CPlusPlus::AST *> &path = astPath(editor->textCursor());
@@ -85,7 +85,7 @@ void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, Text
 
     int parentIndex = indexOfExpression - 1;
     CPlusPlus::AST *parentNode = path.at(parentIndex);
-    CPlusPlus::CallAST * callAst = 0;
+    CPlusPlus::CallAST * callAst = nullptr;
     while (parentNode->asMemberAccess() || ((callAst = parentNode->asCall()) && callAst->base_expression == path.at(parentIndex + 1))) {
         parentNode = path.at(--parentIndex);
     }
