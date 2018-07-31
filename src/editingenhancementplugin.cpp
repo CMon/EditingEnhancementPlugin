@@ -81,7 +81,7 @@ bool EditingEnhancementPlugin::initialize(const QStringList &arguments, QString 
     Core::ActionManager::actionContainer(Core::Constants::M_TOOLS)->addMenu(menu);
 
     // add custom quickfixes for cppeditor
-    addAutoReleasedObject(new CppEditor::AddNotInfrontOfStatement);
+    new CppEditor::AddNotInfrontOfStatement;
 
     return true;
 }
