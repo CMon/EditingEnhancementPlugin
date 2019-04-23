@@ -1,5 +1,8 @@
 DEFINES += EDITINGENHANCEMENT_LIBRARY
 
+KSYNTAXHIGHLIGHTING_LIB_DIR=/usr/lib
+KSYNTAXHIGHLIGHTING_INCLUDE_DIR=/usr/include/KF5/KSyntaxHighlighting
+
 # EditingEnhancement files
 
 SOURCES += \
