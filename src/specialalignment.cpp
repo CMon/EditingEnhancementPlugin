@@ -97,7 +97,7 @@ void SpecialAlignment::align()
     cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
 
     const QString selectedTxt = cursor.selectedText();
-    QStringList linesToAlign = selectedTxt.split(QChar::ParagraphSeparator, QString::KeepEmptyParts);
+    QStringList linesToAlign = selectedTxt.split(QChar::ParagraphSeparator, Qt::KeepEmptyParts);
     if (linesToAlign.size() < 2) return;
 
     // we just want the absolute start and end positions within the lines so remove the rest from the positions in the textblock

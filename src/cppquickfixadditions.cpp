@@ -37,7 +37,7 @@ public:
     void perform()
     {
         CppTools::CppRefactoringChanges refactoring(CppTools::CppModelManager::instance()->snapshot());
-        CppTools::CppRefactoringFilePtr currentFile = refactoring.file(fileName());
+        CppTools::CppRefactoringFilePtr cf = refactoring.file(filePath().toString());
 
         Utils::ChangeSet changes;
 
@@ -47,8 +47,8 @@ public:
             changes.remove(m_position-1, m_position);
         }
 
-        currentFile->setChangeSet(changes);
-        currentFile->apply();
+        cf->setChangeSet(changes);
+        cf->apply();
     }
 
 private:
