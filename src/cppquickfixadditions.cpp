@@ -37,7 +37,7 @@ public:
     void perform()
     {
         CppTools::CppRefactoringChanges refactoring(CppTools::CppModelManager::instance()->snapshot());
-        CppTools::CppRefactoringFilePtr cf = refactoring.file(filePath().toString());
+        CppTools::CppRefactoringFilePtr cf = refactoring.file(filePath());
 
         Utils::ChangeSet changes;
 
@@ -60,7 +60,7 @@ private:
 void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, TextEditor::QuickFixOperations &result)
 {
     BaseTextEditor *editor = BaseTextEditor::currentTextEditor();
-    const QString fileName = editor->document()->filePath().toString();
+    const auto filePath = editor->document()->filePath();
     CppTools::SemanticInfo semanticInfo = CppTools::CppModelManager::instance()->createEditorDocumentProcessor(editor->textDocument())->recalculateSemanticInfo();
     CPlusPlus::ASTPath astPath(semanticInfo.doc);
 
@@ -91,7 +91,7 @@ void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, Text
     }
 
     const CppTools::CppRefactoringChanges refactoring(CppTools::CppModelManager::instance()->snapshot());
-    CppTools::CppRefactoringFilePtr currentFile = refactoring.file(fileName);
+    CppTools::CppRefactoringFilePtr currentFile = refactoring.file(filePath);
     const CPlusPlus::UnaryExpressionAST * unaryType = parentNode->asUnaryExpression();
     const bool isNegation = unaryType && currentFile->tokenAt(unaryType->unary_op_token).is(CPlusPlus::T_EXCLAIM);
 
