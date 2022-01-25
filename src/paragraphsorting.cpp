@@ -4,6 +4,8 @@
 #include <texteditor/textdocument.h>
 
 #include <QTextBlock>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 using namespace TextEditor;
 
@@ -36,17 +38,17 @@ void ParagraphSorting::sortParagraphPrivate(bool indentedBlock)
     QTextBlock block = cursor.block();
 
     // used if indentedBlock is enabled
-    QRegExp leadingWhitespaceRegExp(QLatin1String("(^\\s*).*"));
-    leadingWhitespaceRegExp.indexIn(block.text());
-    const QString indention = leadingWhitespaceRegExp.cap(1);
+    QRegularExpression leadingWhitespaceRegExp("(^\\s*).*");
+    QRegularExpressionMatch match = leadingWhitespaceRegExp.match(block.text());
+    const QString indention = match.captured(1);
 
     // find start of block (trimmed && empty || not same indention)
     while (block.previous().isValid() && !block.previous().text().trimmed().isEmpty()) {
         block = block.previous();
 
         if (indentedBlock) {
-            leadingWhitespaceRegExp.indexIn(block.text());
-            const QString currentIndention = leadingWhitespaceRegExp.cap(1);
+            match = leadingWhitespaceRegExp.match(block.text());
+            const QString currentIndention = match.captured(1);
             if (currentIndention != indention) {
                 block = block.next();
                 break;
@@ -61,8 +63,8 @@ void ParagraphSorting::sortParagraphPrivate(bool indentedBlock)
         block = block.next();
 
         if (indentedBlock) {
-            leadingWhitespaceRegExp.indexIn(block.text());
-            const QString currentIndention = leadingWhitespaceRegExp.cap(1);
+            match = leadingWhitespaceRegExp.match(block.text());
+            const QString currentIndention = match.captured(1);
             if (currentIndention != indention) {
                 block = block.previous();
                 break;
@@ -74,7 +76,7 @@ void ParagraphSorting::sortParagraphPrivate(bool indentedBlock)
     sortingSelection.setPosition(block.position() + block.length() - 1, QTextCursor::KeepAnchor);
 
     // order lines
-    QStringList lines = sortingSelection.selectedText().split(QChar::ParagraphSeparator, QString::SkipEmptyParts);
+    QStringList lines = sortingSelection.selectedText().split(QChar::ParagraphSeparator, Qt::SkipEmptyParts);
     lines.sort(Qt::CaseInsensitive);
     const QString sortedLines = lines.join(QChar::ParagraphSeparator);
 

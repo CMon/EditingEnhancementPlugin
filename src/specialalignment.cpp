@@ -28,7 +28,7 @@ static QString getAlignPattern(const QString & firstLine, int startOfSelection, 
 
     QString retval;
     for (int pos = qMin(endPartFirstLine.length(), startPartLastLine.length()); pos > 0 ; --pos) {
-        if (endPartFirstLine.leftRef(pos).compare(startPartLastLine.rightRef(pos)) == 0) {
+        if (QStringView{endPartFirstLine}.left(pos).compare(QStringView{startPartLastLine}.right(pos)) == 0) {
             retval = endPartFirstLine.left(pos);
             alignToLastOccournce = getAlignToLastOccournce(endPartFirstLine, startPartLastLine, retval);
             return retval;
