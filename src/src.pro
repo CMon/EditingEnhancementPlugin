@@ -9,7 +9,7 @@ SOURCES += \
     editingenhancementplugin.cpp \
     paragraphsorting.cpp \
     specialalignment.cpp \
-    cppquickfixadditions.cpp \
+#    cppquickfixadditions.cpp \
 
 HEADERS += \
     editingenhancement_global.h \
@@ -17,7 +17,7 @@ HEADERS += \
     editingenhancementplugin.h \
     paragraphsorting.h \
     specialalignment.h \
-    cppquickfixadditions.h \
+#    cppquickfixadditions.h \
 
 # Qt Creator linking
 

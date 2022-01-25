@@ -3,9 +3,10 @@
 #include <QApplication>
 
 #include <cplusplus/ASTPath.h>
-#include <cpptools/baseeditordocumentprocessor.h>
-#include <cpptools/cppmodelmanager.h>
-#include <cpptools/cpprefactoringchanges.h>
+#include <cppeditor/cpprefactoringchanges.h>
+#include <cppeditor/cppmodelmanager.h>
+#include <cppeditor/cppsemanticinfo.h>
+#include <cppeditor/baseeditordocumentprocessor.h>
 #include <texteditor/texteditor.h>
 
 using namespace CppEditor::Internal;
@@ -36,8 +37,8 @@ public:
 
     void perform()
     {
-        CppTools::CppRefactoringChanges refactoring(CppTools::CppModelManager::instance()->snapshot());
-        CppTools::CppRefactoringFilePtr cf = refactoring.file(filePath());
+        CppEditor::CppRefactoringChanges refactoring(CppEditor::CppModelManager::instance()->snapshot());
+        CppEditor::CppRefactoringFilePtr cf = refactoring.file(filePath());
 
         Utils::ChangeSet changes;
 
@@ -61,7 +62,7 @@ void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, Text
 {
     BaseTextEditor *editor = BaseTextEditor::currentTextEditor();
     const auto filePath = editor->document()->filePath();
-    CppTools::SemanticInfo semanticInfo = CppTools::CppModelManager::instance()->createEditorDocumentProcessor(editor->textDocument())->recalculateSemanticInfo();
+    CppEditor::SemanticInfo semanticInfo = CppEditor::CppModelManager::instance()->createEditorDocumentProcessor(editor->textDocument())->recalculateSemanticInfo();
     CPlusPlus::ASTPath astPath(semanticInfo.doc);
 
     const QList<CPlusPlus::AST *> &path = astPath(editor->textCursor());
@@ -90,8 +91,8 @@ void AddNotInfrontOfStatement::match(const CppQuickFixInterface &interface, Text
         parentNode = path.at(--parentIndex);
     }
 
-    const CppTools::CppRefactoringChanges refactoring(CppTools::CppModelManager::instance()->snapshot());
-    CppTools::CppRefactoringFilePtr currentFile = refactoring.file(filePath);
+    const CppEditor::CppRefactoringChanges refactoring(CppEditor::CppModelManager::instance()->snapshot());
+    CppEditor::CppRefactoringFilePtr currentFile = refactoring.file(filePath);
     const CPlusPlus::UnaryExpressionAST * unaryType = parentNode->asUnaryExpression();
     const bool isNegation = unaryType && currentFile->tokenAt(unaryType->unary_op_token).is(CPlusPlus::T_EXCLAIM);
 
